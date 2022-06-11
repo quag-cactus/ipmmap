@@ -1,6 +1,5 @@
 import pathlib
 
-from .mmap_manager import BaseStructMmapManager
 from .struct_mmap_manager import DataStructMmapReader
 from .struct_mmap_manager import DataStructMmapEditor
 

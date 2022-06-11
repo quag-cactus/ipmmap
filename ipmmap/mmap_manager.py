@@ -9,6 +9,7 @@ from abc import ABCMeta
 import fasteners
 
 from .struct import base_struct
+from .exception import ipmmap_error as Err
 
 DEFAULT_MMAP_FILE_DIR = "./.mmap"
 DEFAULT_FASTENERS_FILE_DIR = "./.fasteners"
@@ -71,49 +72,6 @@ class AbstractMmapManger(metaclass=ABCMeta):
             self.rw_lock.release_write_lock()
 
         self.logger.info(">>> exit with block")
-
-
-class BaseStructMmapManager(AbstractMmapManger):
-    
-    # コンストラクタ
-    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
-        super().__init__(mmapDir, fastenerDir)
-        self.structType = self._searchStructType(structName)
-        self.mmapFilePath = (self._getUseFDir(DEFAULT_MMAP_FILE_DIR, mmapDir) / self.structType.__name__).with_suffix('.mmap').resolve()
-        self.fastenerFilePath = (self._getUseFDir(DEFAULT_FASTENERS_FILE_DIR, fastenerDir) / self.structType.__name__).with_suffix('.lockfile').resolve()
-
-
-    # マッピングデータ部構造体定義検索関数
-    def _searchStructType(self, structName: str):
-        for st in base_struct.BaseMmapStacture.__subclasses__():
-            if structName == st.__name__:
-                return st
-
-        # 指定された構造体が存在しない場合は独自エラー
-
-
-    # マッピングデータ部構造体生成関数
-    def _generateStruct(self):
-        return self.structType(base_struct.MmapStructureHeader(0x1128, time.time()))
-
-
-    # マッピング用ファイル生成関数
-    def _createNewMmapFile(self, dataStruct):
-        try:
-            with open(self.mmapFilePath, "wb") as fs:
-                fs.write(dataStruct)
-        except Exception as e: 
-            pass
-
-
-    # 最終更新時刻取得関数
-    def getLastUpdate(self) -> float:
-        if not self.mm is None:
-            self.mm.seek(0)
-            mmData = self.structType.from_buffer_copy(self.mm)
-            return mmData.header.time_stamp
-        else:
-            return -1
 
 
 class BasePickleMmapManager(AbstractMmapManger):

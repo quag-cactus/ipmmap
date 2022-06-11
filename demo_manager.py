@@ -13,8 +13,12 @@ from ipmmap import DataStructMmapEditor
 
 def Main():
     mmapInfo = [
-        {"mmap_file_path": ".\\mmap", "structure_type": "DetectDataMmapStructure"}
+        {"mmap_file_path": ".\\.mmap", "structure_type": "DetectDataMmapStructure"},
+        {"mmap_file_path": ".\\.mmap", "structure_type": "DemoMmapStructure"}
     ]
+
+    # add struct module path
+    DataStructMmapEditor.setUserStructs(["demo_struct"])
 
     # create mmap file
     for info in mmapInfo:
