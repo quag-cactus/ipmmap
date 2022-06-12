@@ -4,6 +4,7 @@
 import time
 import pathlib
 import importlib
+import mmap
 
 from .mmap_manager import AbstractMmapManger, DEFAULT_MMAP_FILE_DIR, DEFAULT_FASTENERS_FILE_DIR
 from .struct import base_struct
@@ -29,7 +30,6 @@ class BaseStructMmapManager(AbstractMmapManger):
     # マッピングデータ部構造体定義検索関数
     def _searchStructType(self, structName: str):
         for st in base_struct.BaseMmapStacture.__subclasses__():
-            print(st.__name__)
             if structName == st.__name__:
                 return st
 
@@ -73,22 +73,13 @@ class DataStructMmapReader(BaseStructMmapManager):
         pass
 
 
-# 編集クラス（新規作成権限あり）
+# 編集クラス
 class DataStructMmapEditor(DataStructMmapReader):
-    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, create: bool=False, force: bool=False):
+
+    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
         super().__init__(structName, mmapDir, fastenerDir)
         self.editable = True
 
-        # 新規作成処理
-        if create:
-            # forceフラグが立っている場合、ファイルが存在していても上書きして作成
-            if force or (not self.mmapFilePath.exists()):
-                self._createNewMmapFile(self._generateStruct())
-                print("file generated: ", self.mmapFilePath)
-            else:
-                print("file already exist")
-
-        # mmapオブジェクトを取得
 
     # 最終更新時刻更新関数
     def updateLastUpdate(self) -> None:
@@ -98,5 +89,40 @@ class DataStructMmapEditor(DataStructMmapReader):
             print("GET:", getattr(mmData.header, "time_stamp"))
             mmData.header.time_stamp = time.time()
 
+
     def writeData(self, key):
         pass
+
+
+# 管理クラス（新規作成権限あり）
+class DataStructMmapManager(DataStructMmapEditor):
+
+    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, create: bool=False, force: bool=False):
+        super().__init__(structName, mmapDir, fastenerDir)
+        self.editable = True
+
+        # create new mmap
+        if create:
+            # if "force" mode, old mmapfile is overwritten 
+            if force or (not self.mmapFilePath.exists()):
+                self._createNewMmapFile(self._generateStruct())
+                print("file generated: ", self.mmapFilePath)
+            else:
+                print("file already exist")
+
+
+    def openMemory(self):
+        self.fs_master = open(self.mmapFilePath, 'r+b')
+        self.mm_master = mmap.mmap(self.fs_master.fileno(), 0, access=mmap.ACCESS_DEFAULT)
+
+    
+    def closeMemory(self):
+        if (not self.mm_master is None) and (not self.mm_master.closed):
+            self.mm_master.close()
+            self.mm_master = None
+
+        if (not self.fs_master is None):
+            self.fs_master.close()
+
+
+    
