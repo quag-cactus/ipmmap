@@ -12,6 +12,17 @@ from .exception import ipmmap_error as Err
 
 
 class BaseStructMmapManager(AbstractMmapManger):
+    """Base class for StructMmapReader, Editor and Manager
+
+    Args:
+        AbstractMmapManger (_type_): _description_
+
+    Raises:
+        Err.StructNotFoundIpMmapError: _description_
+
+    Returns:
+        _type_: _description_
+    """
 
     @staticmethod
     def setUserStructs(moduleNameList):
@@ -69,8 +80,11 @@ class DataStructMmapReader(BaseStructMmapManager):
 
         # mmapオブジェクトを取得
 
-    def readData(self, key):
-        pass
+    def readData(self, key: str):
+        self.mm.seek(0)
+        mmData = self.structType.from_buffer_copy(self.mm)
+
+        return getattr(mmData, key)
 
 
 # 編集クラス
@@ -97,7 +111,8 @@ class DataStructMmapEditor(DataStructMmapReader):
 # 管理クラス（新規作成権限あり）
 class DataStructMmapManager(DataStructMmapEditor):
 
-    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, create: bool=False, force: bool=False):
+    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, 
+                 create: bool=False, force: bool=False):
         super().__init__(structName, mmapDir, fastenerDir)
         self.editable = True
 

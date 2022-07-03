@@ -5,14 +5,26 @@
 import sys
 import time
 import pathlib
+import signal
 import argparse
 import struct
 import ctypes
 
-from ipmmap import DataStructMmapEditor
-from ipmmap import DataStructMmapManager
+from ipmmap import DataStructMmapManager, DataStructMmapEditor
 
 def Main():
+
+    managerList: list[DataStructMmapManager] = []
+
+    # close memory mapping
+    def handler(signum, frame):
+        for manager in managerList:
+            manager.closeMemory()
+        sys.exit(1)
+
+    signal.signal(signal.SIGINT, handler)
+    signal.signal(signal.SIGTERM, handler)
+
     mmapInfo = [
         {"mmap_file_path": ".\\.mmap", "structure_type": "DetectDataMmapStructure"},
         {"mmap_file_path": ".\\.mmap", "structure_type": "DemoMmapStructure"}
@@ -22,7 +34,6 @@ def Main():
     DataStructMmapEditor.setUserStructs(["demo_struct"])
 
     # create mmap file
-    managerList = []
     for info in mmapInfo:
         mPath = pathlib.Path(info["mmap_file_path"])
         strctTypeName = info["structure_type"]
