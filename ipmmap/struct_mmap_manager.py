@@ -103,8 +103,18 @@ class DataStructMmapEditor(DataStructMmapReader):
             mmData.header.time_stamp = time.time()
 
 
-    def writeData(self, key):
-        pass
+    def writeData(self, key, value):
+        if not self.mm is None:
+            self.mm.seek(0)
+            mmData = self.structType.from_buffer(self.mm)
+            setattr(mmData, key, value)
+
+    def referMappedbuffer(self):
+        if not self.mm is None:
+            self.mm.seek(0)
+            return self.structType.from_buffer(self.mm)
+        else:
+            return None   
 
 
 # 管理クラス（新規作成権限あり）
