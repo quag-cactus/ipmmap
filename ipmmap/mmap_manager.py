@@ -19,7 +19,6 @@ DEFAULT_LOGGER = logging.getLogger(__name__)
 class AbstractMmapManger(metaclass=ABCMeta):
 
     def __init__(self, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, logger: logging.Logger=None):
-        print(">>> abc init called...")
         self.mmapFilePath = None
         self.fastenerFilePath = None
         self.editable = False

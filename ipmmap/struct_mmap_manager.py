@@ -100,7 +100,6 @@ class DataStructMmapEditor(DataStructMmapReader):
         if not self.mm is None:
             self.mm.seek(0)
             mmData = self.structType.from_buffer(self.mm)
-            print("GET:", getattr(mmData.header, "time_stamp"))
             mmData.header.time_stamp = time.time()
 
 
@@ -121,9 +120,10 @@ class DataStructMmapManager(DataStructMmapEditor):
             # if "force" mode, old mmapfile is overwritten 
             if force or (not self.mmapFilePath.exists()):
                 self._createNewMmapFile(self._generateStruct())
-                print("file generated: ", self.mmapFilePath)
+                # print("file generated: ", self.mmapFilePath)
             else:
-                print("file already exist")
+                pass
+                # print("file already exist")
 
 
     def openMemory(self):
