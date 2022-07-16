@@ -1,5 +1,4 @@
 from .base_struct import BaseMmapStacture, MmapStructureHeader
-from .detect_data_struct import DetectDataMmapStructure
 
 import pathlib
 
