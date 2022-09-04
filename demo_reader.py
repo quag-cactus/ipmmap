@@ -3,29 +3,29 @@
 """
 
 import time
-import pathlib
+import datetime
 
 from ipmmap import DataStructMmapReader
 
 def Main():
-    mmapInfo = [
-        #{"mmap_file_path": ".\\.mmap", "structure_type": "DetectDataMmapStructure"},
-        {"mmap_file_path": ".\\.mmap", "structure_type": "DemoMmapStructure"}
-    ]
 
     DataStructMmapReader.setUserStructs(["demo_struct"])
 
-    # reading mmap file
+    # read mmap file
     while True:
-        for info in mmapInfo:
-            mPath = pathlib.Path(info["mmap_file_path"])
-            strctTypeName = info["structure_type"]
 
-            with DataStructMmapReader(strctTypeName, mmapDir=mPath) as m:
-                pts = m.readData('data_xy')
-                print(pts.x, pts.y)
+        with DataStructMmapReader("DemoMmapStructure") as reader:
+            lastUpdateTime = datetime.datetime.fromtimestamp(reader.getLastUpdate())
 
-        print("----------------------")
+            data_int = reader.readData('data_int')
+            data_string = reader.readData('data_string')
+            pts = reader.readData('data_xy')
+
+            print("----------------------------------")
+            print("[lastupdate] {}".format(lastUpdateTime))
+            print("[data_int] {}".format(data_int))
+            print("[data_string] {}".format(data_string))
+            print("[data_xy] x: {}, y: {}".format(pts.x, pts.y))
 
         time.sleep(1)
 
