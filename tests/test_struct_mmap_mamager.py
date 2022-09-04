@@ -53,6 +53,14 @@ class TestStructMmapManager:
     def init_struct_mmap_manager(self):
         self.manager = DataStructMmapManager('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap'), create=True, force=True)
 
+    @pytest.mark.parametrize('structName, tag, assert_fileName', [
+        ('SampleMmapStructure', '', 'SampleMmapStructure_.mmap'),
+        ('SampleMmapStructure', 'TAG', 'SampleMmapStructure_TAG.mmap'),
+    ])
+    def test_mmap_file_name(self, structName, tag, assert_fileName):
+        manager = DataStructMmapManager(structName, tag, mmapDir=pathlib.Path('\\.mmap'), create=True, force=True)
+        assert manager.mmapFilePath.name == assert_fileName
+
     def test_read_in_read_lock(self, init_struct_mmap_manager):
         # read lock with main proccess
         reader = DataStructMmapReader('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap'))

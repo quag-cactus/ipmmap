@@ -32,11 +32,12 @@ class BaseStructMmapManager(AbstractMmapManger):
 
     
     # コンストラクタ
-    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
+    def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
         super().__init__(mmapDir, fastenerDir)
         self.structType = self._searchStructType(structName)
-        self.mmapFilePath = (self._getUseFDir(DEFAULT_MMAP_FILE_DIR, mmapDir) / self.structType.__name__).with_suffix('.mmap').resolve()
-        self.fastenerFilePath = (self._getUseFDir(DEFAULT_FASTENERS_FILE_DIR, fastenerDir) / self.structType.__name__).with_suffix('.lockfile').resolve()
+        fileName = "{}_{}".format(self.structType.__name__, tag)
+        self.mmapFilePath = (self._getUseFDir(DEFAULT_MMAP_FILE_DIR, mmapDir) / fileName).with_suffix('.mmap').resolve()
+        self.fastenerFilePath = (self._getUseFDir(DEFAULT_FASTENERS_FILE_DIR, fastenerDir) / fileName).with_suffix('.lockfile').resolve()
 
 
     # マッピングデータ部構造体定義検索関数
@@ -75,8 +76,8 @@ class BaseStructMmapManager(AbstractMmapManger):
 
 # 読み出し専用クラス
 class DataStructMmapReader(BaseStructMmapManager):
-    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
-        super().__init__(structName, mmapDir, fastenerDir)
+    def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
+        super().__init__(structName, tag, mmapDir, fastenerDir)
         self.editable = False
 
         # mmapオブジェクトを取得
@@ -97,8 +98,8 @@ class DataStructMmapReader(BaseStructMmapManager):
 # 編集クラス
 class DataStructMmapEditor(DataStructMmapReader):
 
-    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
-        super().__init__(structName, mmapDir, fastenerDir)
+    def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
+        super().__init__(structName, tag, mmapDir, fastenerDir)
         self.editable = True
 
     # 最終更新時刻更新関数
@@ -137,9 +138,9 @@ class DataStructMmapEditor(DataStructMmapReader):
 # 管理クラス（新規作成権限あり）
 class DataStructMmapManager(DataStructMmapEditor):
 
-    def __init__(self, structName: str, mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, 
+    def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, 
                  create: bool=False, force: bool=False):
-        super().__init__(structName, mmapDir, fastenerDir)
+        super().__init__(structName, tag, mmapDir, fastenerDir)
         self.editable = True
 
         # create new mmap
