@@ -1,4 +1,4 @@
-from .base_struct import BaseMmapStacture, MmapStructureHeader
+from .base_struct import BaseMmapStructure, MmapStructureHeader
 
 import pathlib
 

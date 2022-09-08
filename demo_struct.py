@@ -15,7 +15,7 @@ class MultiPointsData(ctypes.Structure):
         ('multi_points', Point2D * 24),
     )
 
-class DemoMmapStructure(bs.BaseMmapStacture):
+class DemoMmapStructure(bs.BaseMmapStructure):
     _fields_ = (
         ('header', bs.MmapStructureHeader),
         ('data_int', ctypes.c_int32),

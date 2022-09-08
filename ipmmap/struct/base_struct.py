@@ -3,7 +3,7 @@ import ctypes
 
 # プロセス間共有メモリ向けメモリマップ構造体（ベース）
 # サブクラスの検索を容易にするために宣言している空の継承クラスです。
-class BaseMmapStacture(ctypes.Structure):
+class BaseMmapStructure(ctypes.Structure):
     pass
 
 # メモリマップ構造体の共通ヘッダ

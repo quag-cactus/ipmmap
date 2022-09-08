@@ -9,7 +9,7 @@ from ipmmap import DataStructMmapManager, DataStructMmapEditor, DataStructMmapRe
 from ipmmap.exception import ipmmap_error as Err  
 from ipmmap.struct import base_struct as bs
 
-class SampleMmapStructure(bs.BaseMmapStacture):
+class SampleMmapStructure(bs.BaseMmapStructure):
     _fields_ = (
         ('header', bs.MmapStructureHeader),
         ('test_data_int_32', ctypes.c_int32),

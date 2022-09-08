@@ -42,7 +42,7 @@ class BaseStructMmapManager(AbstractMmapManger):
 
     # マッピングデータ部構造体定義検索関数
     def _searchStructType(self, structName: str):
-        for st in base_struct.BaseMmapStacture.__subclasses__():
+        for st in base_struct.BaseMmapStructure.__subclasses__():
             if structName == st.__name__:
                 return st
 
