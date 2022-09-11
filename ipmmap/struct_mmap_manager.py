@@ -86,7 +86,11 @@ class DataStructMmapReader(BaseStructMmapManager):
         self.mm.seek(0)
         mmData = self.structType.from_buffer_copy(self.mm)
 
-        return getattr(mmData, key)
+        val = mmData
+        for k in key.split('.'):
+            val = getattr(val, k)
+
+        return val
 
     def readMappedBuffer(self):
         mmData = None

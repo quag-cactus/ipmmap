@@ -1,4 +1,4 @@
-from re import A
+
 import pytest
 import pathlib
 import ctypes
@@ -9,12 +9,21 @@ from ipmmap import DataStructMmapManager, DataStructMmapEditor, DataStructMmapRe
 from ipmmap.exception import ipmmap_error as Err  
 from ipmmap.struct import base_struct as bs
 
+# sample points structure
+class SamplePoint2D(ctypes.Structure):
+    _fields_ = (
+        ('x', ctypes.c_double), 
+        ('y', ctypes.c_double),
+    )
+
+# sample structure
 class SampleMmapStructure(bs.BaseMmapStructure):
     _fields_ = (
         ('header', bs.MmapStructureHeader),
         ('test_data_int_32', ctypes.c_int32),
-        ('test_data_float', ctypes.c_float),
-        ('tset_data_string_256', ctypes.c_char * 256),
+        ('test_data_double', ctypes.c_float),
+        ('test_data_string_256', ctypes.c_char * 256),
+        ('test_point_2d', SamplePoint2D),
     )
 
 def run_check_reader_acquirement_proc(conn, structName):
@@ -54,6 +63,10 @@ class TestStructMmapManager:
     @pytest.fixture
     def init_struct_mmap_manager(self):
         self.manager = DataStructMmapManager('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap'), create=True, force=True)
+        self.manager.openMemory()
+        yield
+        self.manager.closeMemory()
+
 
     @pytest.mark.parametrize('structName, tag, assert_fileName', [
         ('SampleMmapStructure', '', 'SampleMmapStructure_.mmap'),
@@ -160,3 +173,25 @@ class TestStructMmapManager:
         with pytest.raises(Err.StructNotFoundIpMmapError):
             DataStructMmapManager(dummyStructName, mmapDir=pathlib.Path('\\.mmap'), create=True, force=True)
 
+    @pytest.mark.parametrize('struct', [
+        (SampleMmapStructure(bs.MmapStructureHeader(), 100, 0.0, b'hello world', SamplePoint2D(10, 20))),
+    ])
+    def test_read_data(self, init_struct_mmap_manager, struct):
+
+        # struct = SampleMmapStructure(bs.MmapStructureHeader(), 100, 0.0, b'hello world', SamplePoint2D(10, 20))
+
+        with DataStructMmapEditor('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as editor:
+            mmapData = editor.referMappedBuffer()
+            mmapData.test_data_int_32 = struct.test_data_int_32
+            mmapData.test_data_double = struct.test_data_double
+            mmapData.test_data_string_256 = struct.test_data_string_256
+            mmapData.test_point_2d.x = struct.test_point_2d.x
+            mmapData.test_point_2d.y = struct.test_point_2d.y
+
+        with DataStructMmapEditor('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as reader:
+            assert (reader.readData('test_data_int_32') == struct.test_data_int_32
+                and reader.readData('test_data_double') == struct.test_data_double 
+                and reader.readData('test_data_string_256') == struct.test_data_string_256
+                and reader.readData('test_point_2d.x') == struct.test_point_2d.x
+                and reader.readData('test_point_2d.y') == struct.test_point_2d.y
+            )

@@ -19,13 +19,14 @@ def Main():
 
             data_int = reader.readData('data_int')
             data_string = reader.readData('data_string')
-            pts = reader.readData('data_xy')
+            pts_x = reader.readData('data_xy.x')
+            pts_y = reader.readData('data_xy.y')
 
             print("----------------------------------")
-            print("[lastupdate] {}".format(lastUpdateTime))
+            print("[last update] {}".format(lastUpdateTime))
             print("[data_int] {}".format(data_int))
             print("[data_string] {}".format(data_string))
-            print("[data_xy] x: {}, y: {}".format(pts.x, pts.y))
+            print("[data_xy] x: {}, y: {}".format(pts_x, pts_y))
 
         time.sleep(1)
 
