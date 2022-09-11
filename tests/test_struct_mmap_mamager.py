@@ -14,14 +14,15 @@ class SampleMmapStructure(bs.BaseMmapStructure):
         ('header', bs.MmapStructureHeader),
         ('test_data_int_32', ctypes.c_int32),
         ('test_data_float', ctypes.c_float),
-        ('data_string_256', ctypes.c_char * 256),
+        ('tset_data_string_256', ctypes.c_char * 256),
     )
 
 def run_check_reader_acquirement_proc(conn, structName):
     reader = DataStructMmapReader(structName, mmapDir=pathlib.Path('\\.mmap'))
     # acquire read lock
     status = reader._acquireMmapResource(lock=True, blocking=False)
-    reader._releaseMmapResource(lock=True)
+    if status:
+        reader._releaseMmapResource(lock=True)
     conn.send(status)
 
     return
@@ -30,7 +31,8 @@ def run_check_writer_acquirement_proc(conn, structName):
     reader = DataStructMmapEditor(structName, mmapDir=pathlib.Path('\\.mmap'))
     # acquire write lock
     status = reader._acquireMmapResource(lock=True, blocking=False)
-    reader._releaseMmapResource(lock=True)
+    if status:
+        reader._releaseMmapResource(lock=True)
     conn.send(status)
 
     return
