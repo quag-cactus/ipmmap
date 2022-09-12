@@ -4,7 +4,7 @@ IPMMAP(Inter-Process Mmap) is a python library of inter-process communication wi
 
 This library provides:
 * Shared memory access classes provided per permission (manager, editor, reader)
-* Read-Write exclusivity (using [fasteners](https://github.com/harlowja/fasteners))
+* Reader-Writer LOCK (using [fasteners](https://github.com/harlowja/fasteners))
 * class-based and inheritable shared data structures using [ctypes.structure](https://docs.python.org/ja/3/library/ctypes.html)
 
 ## dependencies
