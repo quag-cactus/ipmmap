@@ -119,7 +119,15 @@ class DataStructMmapEditor(DataStructMmapReader):
         if not self.mm is None:
             self.mm.seek(0)
             mmData = self.structType.from_buffer(self.mm)
-            setattr(mmData, key, value)
+
+            keyList = key.split('.')
+
+            # set recursive
+            attr = mmData
+            for k in keyList[:-1]:
+                attr = getattr(attr, k)
+                
+            setattr(attr, keyList[-1], value)
 
         return
 

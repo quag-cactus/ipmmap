@@ -188,10 +188,29 @@ class TestStructMmapManager:
             mmapData.test_point_2d.x = struct.test_point_2d.x
             mmapData.test_point_2d.y = struct.test_point_2d.y
 
-        with DataStructMmapEditor('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as reader:
-            assert (reader.readData('test_data_int_32') == struct.test_data_int_32
-                and reader.readData('test_data_double') == struct.test_data_double 
-                and reader.readData('test_data_string_256') == struct.test_data_string_256
-                and reader.readData('test_point_2d.x') == struct.test_point_2d.x
-                and reader.readData('test_point_2d.y') == struct.test_point_2d.y
-            )
+        with DataStructMmapReader('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as reader:
+            assert reader.readData('test_data_int_32') == struct.test_data_int_32
+            assert reader.readData('test_data_double') == struct.test_data_double 
+            assert reader.readData('test_data_string_256') == struct.test_data_string_256
+            assert reader.readData('test_point_2d.x') == struct.test_point_2d.x
+            assert reader.readData('test_point_2d.y') == struct.test_point_2d.y
+
+    @pytest.mark.parametrize('struct', [
+        (SampleMmapStructure(bs.MmapStructureHeader(), 100, 0.0, b'hello world', SamplePoint2D(10, 20))),
+    ])
+    def test_write_data(self, init_struct_mmap_manager, struct):
+
+        with DataStructMmapEditor('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as editor:
+            editor.writeData('test_data_int_32', struct.test_data_int_32)
+            editor.writeData('test_data_double', struct.test_data_double)
+            editor.writeData('test_data_string_256', struct.test_data_string_256)
+            editor.writeData('test_point_2d.x', struct.test_point_2d.x)
+            editor.writeData('test_point_2d.y', struct.test_point_2d.y)
+
+        with DataStructMmapReader('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as reader:
+            mmapData = reader.readMappedBuffer()
+            assert mmapData.test_data_int_32 == struct.test_data_int_32
+            assert mmapData.test_data_double == struct.test_data_double 
+            assert mmapData.test_data_string_256 == struct.test_data_string_256
+            assert mmapData.test_point_2d.x == struct.test_point_2d.x
+            assert mmapData.test_point_2d.y == struct.test_point_2d.y
