@@ -64,9 +64,14 @@ class AbstractMmapManger(metaclass=ABCMeta):
 
     def _releaseMmapResource(self, lock=True) -> None:
 
-        self.mm = None
+        if not self.mm is None:
+            if not self.mm.closed:
+                self.mm.close()
+            self.mm = None
+
         if not self.fs is None:
             self.fs.close()
+            self.fs = None
 
         if self.editable:
             if lock:

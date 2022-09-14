@@ -32,6 +32,9 @@ def Main():
             buf.data_xy.x = x
             buf.data_xy.y = y
 
+            # you need release reference of buffer
+            buf = None          
+
             editor.updateLastUpdate()
 
             print("----------------------------------")
@@ -42,6 +45,7 @@ def Main():
             print("updated.")
 
         time.sleep(1)
+
 
 if __name__ == "__main__":
     Main()
