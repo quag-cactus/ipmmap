@@ -1,15 +1,11 @@
 
-import io
-import time
 import mmap
 import logging
 import pathlib
 from abc import ABCMeta
-from xmlrpc.client import Boolean
 
 import fasteners
 
-from .struct import base_struct
 from .exception import ipmmap_error as Err
 
 DEFAULT_MMAP_FILE_DIR = "./.mmap"
@@ -82,22 +78,7 @@ class AbstractMmapManger(metaclass=ABCMeta):
         return
 
     def __enter__(self):
-        """
-        self.rw_lock = fasteners.InterProcessReaderWriterLock(self.fastenerFilePath)
 
-        if self.editable:
-            fileMode = 'r+b'
-            self.rw_lock.acquire_write_lock()
-            accessMode = mmap.ACCESS_DEFAULT
-        else:
-            fileMode = 'r'
-            self.rw_lock.acquire_read_lock()
-            accessMode = mmap.ACCESS_READ
-
-        self.fs = open(self.mmapFilePath, fileMode)
-        self.mm = mmap.mmap(self.fs.fileno(), 0, access=accessMode)
-        self.mm.seek(0)
-        """
         self._acquireMmapResource(lock=True)
 
         self.logger.info(">>> enter with block")
@@ -106,15 +87,6 @@ class AbstractMmapManger(metaclass=ABCMeta):
 
     def __exit__(self, e_type, e_value, traceback):
 
-        """
-        self.mm = None
-        self.fs.close()
-
-        if self.editable:
-            self.rw_lock.release_write_lock()
-        else:
-            self.rw_lock.release_read_lock()
-        """
         self._releaseMmapResource(True)
 
         self.logger.info(">>> exit with block")
