@@ -178,8 +178,6 @@ class TestStructMmapManager:
     ])
     def test_read_data(self, init_struct_mmap_manager, struct):
 
-        # struct = SampleMmapStructure(bs.MmapStructureHeader(), 100, 0.0, b'hello world', SamplePoint2D(10, 20))
-
         with DataStructMmapEditor('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as editor:
             mmapData = editor.referMappedBuffer()
             mmapData.test_data_int_32 = struct.test_data_int_32
@@ -187,6 +185,7 @@ class TestStructMmapManager:
             mmapData.test_data_string_256 = struct.test_data_string_256
             mmapData.test_point_2d.x = struct.test_point_2d.x
             mmapData.test_point_2d.y = struct.test_point_2d.y
+            mmapData = None
 
         with DataStructMmapReader('SampleMmapStructure', mmapDir=pathlib.Path('\\.mmap')) as reader:
             assert reader.readData('test_data_int_32') == struct.test_data_int_32
