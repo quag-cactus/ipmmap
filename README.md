@@ -102,14 +102,14 @@ This library provides:
 
 let's check multiple processes can share the value.
 
-1. execute demo_manager.py
-    * `demo_manager.py` map to the address space the entity file (.mmap) that defined at `DemoMmapStructure` in `demo_struct.py`.
+1. Execute demo_editor.py
+    * `demo_editor.py` map to the address space the entity file (.mmap) that defined at `DemoMmapStructure` in `demo_struct.py`.
     * It accesses the shared address space with **editor privileges** and rewrites the values randomly repeatedly in a loop.
     ```
-    python demo_manager.py
+    python demo_editor.py
     ```
 
-2. open new terminal, and execute demo_reader.py
+2. Open new terminal, and execute demo_reader.py
    * It accesses the shared address space with **reader privileges** and read the value.
    ```
    python demo_reader.py
