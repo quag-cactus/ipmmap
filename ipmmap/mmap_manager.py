@@ -46,6 +46,8 @@ class AbstractMmapManger(metaclass=ABCMeta):
             if lock:
                 self.rw_lock = fasteners.InterProcessReaderWriterLock(self.fastenerFilePath)
                 stat = self.rw_lock.acquire_write_lock(blocking=blocking)
+            else:
+                stat = True
 
         else:
             fileMode = 'r'
@@ -54,6 +56,8 @@ class AbstractMmapManger(metaclass=ABCMeta):
             if lock:
                 self.rw_lock = fasteners.InterProcessReaderWriterLock(self.fastenerFilePath)
                 stat = self.rw_lock.acquire_read_lock(blocking=blocking)
+            else:
+                stat = True
 
         if stat:
             self.fs = open(self.mmapFilePath, fileMode)
