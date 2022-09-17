@@ -6,6 +6,7 @@ import pathlib
 import importlib
 import mmap
 import ctypes
+from typing import Any
 
 from .mmap_manager import AbstractMmapManger, DEFAULT_MMAP_FILE_DIR, DEFAULT_FASTENERS_FILE_DIR
 from .struct import base_struct
@@ -30,8 +31,6 @@ class BaseStructMmapManager(AbstractMmapManger):
         for name in moduleNameList:
             importlib.import_module(name)
 
-    
-    # コンストラクタ
     def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
         super().__init__(mmapDir, fastenerDir)
         self.structType = self._searchStructType(structName)
@@ -40,22 +39,17 @@ class BaseStructMmapManager(AbstractMmapManger):
         self.fastenerFilePath = (self._getUseFDir(DEFAULT_FASTENERS_FILE_DIR, fastenerDir) / fileName).with_suffix('.lockfile').resolve()
 
 
-    # マッピングデータ部構造体定義検索関数
+    # search IPMMAP Structure of user deinition
     def _searchStructType(self, structName: str):
         for st in base_struct.BaseMmapStructure.__subclasses__():
             if structName == st.__name__:
                 return st
 
-        # 指定された構造体が存在しない場合は独自エラー
         raise Err.StructNotFoundIpMmapError(structName)
 
-
-    # マッピングデータ部構造体生成関数
     def _generateStruct(self):
         return self.structType(base_struct.MmapStructureHeader(0x1128, time.time()))
 
-
-    # マッピング用ファイル生成関数
     def _createNewMmapFile(self, dataStruct):
         try:
             with open(self.mmapFilePath, "wb") as fs:
@@ -66,6 +60,13 @@ class BaseStructMmapManager(AbstractMmapManger):
 
     # 最終更新時刻取得関数
     def getLastUpdate(self) -> float:
+        """Returns last update time of IPMMAP's shared memory as the UNIX epoch time (float).
+        This time can edit only DataStructMmapEditor.updateLastUpdate().
+        the default value is 0.
+
+        Returns:
+            float: UNIX epoch time
+        """
         if not self.mm is None:
             self.mm.seek(0)
             mmData = self.structType.from_buffer_copy(self.mm)
@@ -82,7 +83,15 @@ class DataStructMmapReader(BaseStructMmapManager):
 
         # mmapオブジェクトを取得
 
-    def readData(self, key: str):
+    def readData(self, key: str) -> any:
+        """Returns a value of designated a key-string any IPMMAP Structure's fields. 
+
+        Args:
+            key (str): string of a IPMMAP Structure's field name
+
+        Returns:
+            any: value
+        """
         self.mm.seek(0)
         mmData = self.structType.from_buffer_copy(self.mm)
 
@@ -108,6 +117,8 @@ class DataStructMmapEditor(DataStructMmapReader):
 
     # 最終更新時刻更新関数
     def updateLastUpdate(self) -> None:
+        """Update last update time of IPMMAP's shared memory.
+        """
         if not self.mm is None:
             self.mm.seek(0)
             mmData = self.structType.from_buffer(self.mm)
@@ -115,7 +126,13 @@ class DataStructMmapEditor(DataStructMmapReader):
 
         return
 
-    def writeData(self, key, value) -> None:
+    def writeData(self, key: str, value: Any) -> None:
+        """Set a value of designated a key-string any IPMMAP Structure's fields
+
+        Args:
+            key (str): string of a IPMMAP Structure's field name
+            value (Any): value to write for IPMMAP's shared memory space
+        """
         if not self.mm is None:
             self.mm.seek(0)
             mmData = self.structType.from_buffer(self.mm)
