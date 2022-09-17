@@ -13,6 +13,16 @@ This library provides:
 
 ## Overview
 
+1. clone and pip install
+    ```sh
+    git clone https://github.com/quag-cactus/ipmmap.git
+    ```
+    ```
+    pip install fasteners
+    ```
+    
+    If you want to execute it anyway, you can [run demo scripts](#executing-demo-scripts).
+
 1. Code `ctypes.Structure` for Ipmmap that extends `base_struct.BaseMmapStructure` to define your shared memory structure.
     ```py
     # demo_struct.py
