@@ -87,7 +87,7 @@ class DataStructMmapReader(BaseStructMmapManager):
         """Returns a value of designated a key-string any IPMMAP Structure's fields. 
 
         Args:
-            key (str): string of a IPMMAP Structure's field name
+            key (str): string of the IPMMAP Structure's field name
 
         Returns:
             any: value
@@ -117,7 +117,7 @@ class DataStructMmapEditor(DataStructMmapReader):
 
     # 最終更新時刻更新関数
     def updateLastUpdate(self) -> None:
-        """Update last update time of IPMMAP's shared memory.
+        """Update last update time of the IPMMAP's shared memory.
         """
         if not self.mm is None:
             self.mm.seek(0)
@@ -156,12 +156,16 @@ class DataStructMmapEditor(DataStructMmapReader):
             return None   
 
     def clearMappedBuffer(self) -> None:
+        """Fill IPMMAP's shared memory space with zero.
+        This method also fills last-update time with zero.
+        """
+
         if not self.mm is None:
             self.mm.seek(0)
             mmData = self.structType.from_buffer(self.mm)
             ctypes.memset(ctypes.byref(mmData), 0, ctypes.sizeof(mmData))
 
-        return None
+        return
 
 
 # 管理クラス（新規作成権限あり）
@@ -184,8 +188,12 @@ class DataStructMmapManager(DataStructMmapEditor):
 
 
     def openMemory(self):
+        """Map explicitly the IPMMAP's structure to shared memory space.
+        """
         self.fs_master = open(self.mmapFilePath, 'r+b')
         self.mm_master = mmap.mmap(self.fs_master.fileno(), 0, access=mmap.ACCESS_DEFAULT)
+
+        return
 
     
     def closeMemory(self):
@@ -195,6 +203,8 @@ class DataStructMmapManager(DataStructMmapEditor):
 
         if (not self.fs_master is None):
             self.fs_master.close()
+
+        return
 
 
     
