@@ -14,17 +14,7 @@ from .exception import ipmmap_error as Err
 
 
 class BaseStructMmapManager(AbstractMmapManger):
-    """Base class for StructMmapReader, Editor and Manager
-
-    Args:
-        AbstractMmapManger (_type_): _description_
-
-    Raises:
-        Err.StructNotFoundIpMmapError: _description_
-
-    Returns:
-        _type_: _description_
-    """
+    """Base class for StructMmapReader, Editor and Manager"""
 
     @staticmethod
     def setUserStructs(moduleNameList):
@@ -60,9 +50,10 @@ class BaseStructMmapManager(AbstractMmapManger):
 
     # 最終更新時刻取得関数
     def getLastUpdate(self) -> float:
-        """Returns last update time of IPMMAP's shared memory as the UNIX epoch time (float).
+        """Returns last-update time of IPMMAP's shared memory as the UNIX epoch time (float).
+
         This time can edit only DataStructMmapEditor.updateLastUpdate().
-        the default value is 0.
+        The default value of last-update time is 0.
 
         Returns:
             float: UNIX epoch time
@@ -77,7 +68,18 @@ class BaseStructMmapManager(AbstractMmapManger):
 
 # 読み出し専用クラス
 class DataStructMmapReader(BaseStructMmapManager):
+    """IPMMAP handler class with a reader privilege"""
+
     def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
+        """Initializer of DataStructMmapReader.
+
+        Args:
+            structName (str): String of a IPMMAP Structure's name that you want to map.
+            tag (str, optional): String of a tag name for multiple memory mapping by same IPMMAP Structures. Defaults to "".
+            mmapDir (pathlib.Path, optional): Directory path of the mmap file located. Defaults to None(current directory).
+            fastenerDir (pathlib.Path, optional): Directory path of the fasteners locking file located. Defaults to None(current directory).
+        """
+
         super().__init__(structName, tag, mmapDir, fastenerDir)
         self.editable = False
 
@@ -110,8 +112,18 @@ class DataStructMmapReader(BaseStructMmapManager):
 
 # 編集クラス
 class DataStructMmapEditor(DataStructMmapReader):
+    """IPMMAP handler class with a editor privilege"""
 
     def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
+        """Initializer of DataStructMmapEditor.
+
+        Args:
+            structName (str): String of a IPMMAP Structure's name that you want to map.
+            tag (str, optional): String of a tag name for multiple memory mapping by same IPMMAP Structures. Defaults to "".
+            mmapDir (pathlib.Path, optional): Directory path of the mmap file located. Defaults to None(current directory).
+            fastenerDir (pathlib.Path, optional): Directory path of the fasteners locking file located. Defaults to None(current directory).
+        """
+
         super().__init__(structName, tag, mmapDir, fastenerDir)
         self.editable = True
 
@@ -130,8 +142,8 @@ class DataStructMmapEditor(DataStructMmapReader):
         """Set a value of designated a key-string any IPMMAP Structure's fields
 
         Args:
-            key (str): string of a IPMMAP Structure's field name
-            value (Any): value to write for IPMMAP's shared memory space
+            key (str): String of a IPMMAP Structure's field name
+            value (Any): Value to write for IPMMAP's shared memory space
         """
         if not self.mm is None:
             self.mm.seek(0)
@@ -157,6 +169,7 @@ class DataStructMmapEditor(DataStructMmapReader):
 
     def clearMappedBuffer(self) -> None:
         """Fill IPMMAP's shared memory space with zero.
+
         This method also fills last-update time with zero.
         """
 
@@ -170,9 +183,21 @@ class DataStructMmapEditor(DataStructMmapReader):
 
 # 管理クラス（新規作成権限あり）
 class DataStructMmapManager(DataStructMmapEditor):
+    """IPMMAP handler class with a manager privilege"""
 
     def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, 
                  create: bool=False, force: bool=False):
+        """_Initializer of DataStructMmapEditor.
+
+        Args:
+            structName (str): String of a IPMMAP Structure's name that you want to map.
+            tag (str, optional): String of a tag name for multiple memory mapping by same IPMMAP Structures. Defaults to "".
+            mmapDir (pathlib.Path, optional): Directory path of the mmap file located. Defaults to None(current directory).
+            fastenerDir (pathlib.Path, optional): Directory path of the fasteners locking file located. Defaults to None(current directory).
+            create (bool, optional): If this is true, a mmap file is created when creating instance. Defaults to False.
+            force (bool, optional): If this is true, a mmap file is overwrited when create the mmap file. Defaults to False.
+        """
+
         super().__init__(structName, tag, mmapDir, fastenerDir)
         self.editable = True
 
@@ -189,6 +214,9 @@ class DataStructMmapManager(DataStructMmapEditor):
 
     def openMemory(self):
         """Map explicitly the IPMMAP's structure to shared memory space.
+
+        This method will open both the file object and get the mmap instance.
+        if you want to close resources or stop the process, you need to call closeMemory().
         """
         self.fs_master = open(self.mmapFilePath, 'r+b')
         self.mm_master = mmap.mmap(self.fs_master.fileno(), 0, access=mmap.ACCESS_DEFAULT)
@@ -197,6 +225,8 @@ class DataStructMmapManager(DataStructMmapEditor):
 
     
     def closeMemory(self):
+        """Close the file object and the mmap instance explicitly.
+        """
         if (not self.mm_master is None) and (not self.mm_master.closed):
             self.mm_master.close()
             self.mm_master = None
