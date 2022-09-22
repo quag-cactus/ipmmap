@@ -9,6 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 fasteners = "^0.18"
+sphinx-rtd-theme = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
