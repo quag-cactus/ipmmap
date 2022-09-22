@@ -1,4 +1,4 @@
-"""メモリマップファイル管理クラス(struct)
+"""MmapManager for ctypes.Structure
 """
 
 import time
@@ -29,7 +29,6 @@ class BaseStructMmapManager(AbstractMmapManger):
         self.fastenerFilePath = (self._getUseFDir(DEFAULT_FASTENERS_FILE_DIR, fastenerDir) / fileName).with_suffix('.lockfile').resolve()
 
 
-    # search IPMMAP Structure of user deinition
     def _searchStructType(self, structName: str):
         for st in base_struct.BaseMmapStructure.__subclasses__():
             if structName == st.__name__:
@@ -47,8 +46,6 @@ class BaseStructMmapManager(AbstractMmapManger):
         except Exception as e: 
             pass
 
-
-    # 最終更新時刻取得関数
     def getLastUpdate(self) -> float:
         """Returns last-update time of IPMMAP's shared memory as the UNIX epoch time (float).
 
@@ -65,10 +62,8 @@ class BaseStructMmapManager(AbstractMmapManger):
         else:
             return -1
 
-
-# 読み出し専用クラス
 class DataStructMmapReader(BaseStructMmapManager):
-    """IPMMAP handler class with a reader privilege"""
+    """IPMMAP handler class with a reader privilege."""
 
     def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
         """Initializer of DataStructMmapReader.
@@ -110,9 +105,9 @@ class DataStructMmapReader(BaseStructMmapManager):
             mmData = self.structType.from_buffer_copy(self.mm)
         return mmData
 
-# 編集クラス
+
 class DataStructMmapEditor(DataStructMmapReader):
-    """IPMMAP handler class with a editor privilege"""
+    """IPMMAP handler class with a editor privilege."""
 
     def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None):
         """Initializer of DataStructMmapEditor.
@@ -127,7 +122,7 @@ class DataStructMmapEditor(DataStructMmapReader):
         super().__init__(structName, tag, mmapDir, fastenerDir)
         self.editable = True
 
-    # 最終更新時刻更新関数
+
     def updateLastUpdate(self) -> None:
         """Update last update time of the IPMMAP's shared memory.
         """
@@ -180,10 +175,8 @@ class DataStructMmapEditor(DataStructMmapReader):
 
         return
 
-
-# 管理クラス（新規作成権限あり）
 class DataStructMmapManager(DataStructMmapEditor):
-    """IPMMAP handler class with a manager privilege"""
+    """IPMMAP handler class with a manager privilege."""
 
     def __init__(self, structName: str, tag: str="", mmapDir: pathlib.Path=None, fastenerDir: pathlib.Path=None, 
                  create: bool=False, force: bool=False):

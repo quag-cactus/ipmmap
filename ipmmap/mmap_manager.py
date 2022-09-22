@@ -107,7 +107,6 @@ class BasePickleMmapManager(AbstractMmapManger):
         super().__init__(mmapDir)
         self.mmapFilePath =  (mmapDir / tagName).with_suffix('.mmap').resolve()
 
-    # マッピング用ファイル生成関数
     def _createNewMmapFile(self, binData):
 
         try:
