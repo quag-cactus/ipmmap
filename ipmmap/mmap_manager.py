@@ -102,15 +102,3 @@ class AbstractMmapManger(metaclass=ABCMeta):
 
         return
 
-class BasePickleMmapManager(AbstractMmapManger):
-    def __init__(self, mmapDir: pathlib.Path, tagName: str):
-        super().__init__(mmapDir)
-        self.mmapFilePath =  (mmapDir / tagName).with_suffix('.mmap').resolve()
-
-    def _createNewMmapFile(self, binData):
-
-        try:
-            with open(self.mmapFilePath, "wb") as fs:
-                fs.write(binData)
-        except Exception as e: 
-            pass
