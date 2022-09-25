@@ -48,7 +48,7 @@ def Main():
             editor.writeData("data_int", data_int)
             editor.writeData("data_string", bytes(data_string, 'utf-8'))
             editor.writeData("data_xy.x", x)
-            editor.writeData("data_xy.x", y)
+            editor.writeData("data_xy.y", y)
 
             # update last-update time
             editor.updateLastUpdate()
