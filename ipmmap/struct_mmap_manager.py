@@ -12,6 +12,7 @@ from .mmap_manager import AbstractMmapManger, DEFAULT_MMAP_FILE_DIR, DEFAULT_FAS
 from .struct import base_struct
 from .exception import ipmmap_error as Err 
 
+HEADER_UNIQUE_BYTES = 0x1128
 
 class BaseStructMmapManager(AbstractMmapManger):
     """Base class for StructMmapReader, Editor and Manager"""
@@ -37,7 +38,7 @@ class BaseStructMmapManager(AbstractMmapManger):
         raise Err.StructNotFoundIpMmapError(structName)
 
     def _generateStruct(self):
-        return self.structType(base_struct.MmapStructureHeader(0x1128, time.time()))
+        return self.structType(base_struct.MmapStructureHeader(HEADER_UNIQUE_BYTES, time.time()))
 
     def _createNewMmapFile(self, dataStruct):
         try:
