@@ -38,7 +38,14 @@ class BaseStructMmapManager(AbstractMmapManger):
         raise Err.StructNotFoundIpMmapError(structName)
 
     def _generateStruct(self):
-        return self.structType(base_struct.MmapStructureHeader(HEADER_UNIQUE_BYTES, time.time()))
+
+        dataStruct = None
+        try:
+            dataStruct = self.structType(base_struct.MmapStructureHeader(HEADER_UNIQUE_BYTES, time.time()))
+        except TypeError:
+            raise Err.CommonHeaderNotFoundIpMmapError(self.structType.__name__)
+
+        return dataStruct
 
     def _createNewMmapFile(self, dataStruct):
         try:

@@ -26,6 +26,15 @@ class SampleMmapStructure(bs.BaseMmapStructure):
         ('test_point_2d', SamplePoint2D),
     )
 
+# sample structure without common-header
+class NoCommonHeaderMmapStructure(bs.BaseMmapStructure):
+    _fields_ = (
+        ('test_data_int_32', ctypes.c_int32),
+        ('test_data_double', ctypes.c_float),
+        ('test_data_string_256', ctypes.c_char * 256),
+        ('test_point_2d', SamplePoint2D),
+    )
+
 def run_check_reader_acquirement_proc(conn, structName):
     reader = DataStructMmapReader(structName, mmapDir=pathlib.Path('\\.mmap'))
     # acquire read lock
@@ -66,6 +75,10 @@ class TestStructMmapManager:
         self.manager.openMemory()
         yield
         self.manager.closeMemory()
+
+    def test_no_common_header(self):
+        with pytest.raises(Err.CommonHeaderNotFoundIpMmapError):
+            DataStructMmapManager('NoCommonHeaderMmapStructure', mmapDir=pathlib.Path('\\.mmap'), create=True, force=True)
 
 
     @pytest.mark.parametrize('structName, tag, assert_fileName', [
