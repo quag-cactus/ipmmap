@@ -51,8 +51,8 @@ class BaseStructMmapManager(AbstractMmapManger):
         try:
             with open(self.mmapFilePath, "wb") as fs:
                 fs.write(dataStruct)
-        except Exception as e: 
-            pass
+        except OSError: 
+            raise Err.CreateFileIpMmapError(self.mmapFilePath)
 
     def getLastUpdate(self) -> float:
         """Returns last-update time of IPMMAP's shared memory as the UNIX epoch time (float).
