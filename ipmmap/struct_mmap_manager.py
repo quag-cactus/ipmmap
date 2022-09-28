@@ -37,22 +37,6 @@ class BaseStructMmapManager(AbstractMmapManger):
 
         raise Err.StructNotFoundIpMmapError(structName)
 
-    def _generateStruct(self):
-
-        dataStruct = None
-        try:
-            dataStruct = self.structType(base_struct.MmapStructureHeader(HEADER_UNIQUE_BYTES, time.time()))
-        except TypeError:
-            raise Err.CommonHeaderNotFoundIpMmapError(self.structType.__name__)
-
-        return dataStruct
-
-    def _createNewMmapFile(self, dataStruct):
-        try:
-            with open(self.mmapFilePath, "wb") as fs:
-                fs.write(dataStruct)
-        except OSError: 
-            raise Err.CreateFileIpMmapError(self.mmapFilePath)
 
     def getLastUpdate(self) -> float:
         """Returns last-update time of IPMMAP's shared memory as the UNIX epoch time (float).
@@ -212,6 +196,22 @@ class DataStructMmapManager(DataStructMmapEditor):
                 pass
                 # print("file already exist")
 
+    def _generateStruct(self):
+
+        dataStruct = None
+        try:
+            dataStruct = self.structType(base_struct.MmapStructureHeader(HEADER_UNIQUE_BYTES, time.time()))
+        except TypeError:
+            raise Err.CommonHeaderNotFoundIpMmapError(self.structType.__name__)
+
+        return dataStruct
+
+    def _createNewMmapFile(self, dataStruct):
+        try:
+            with open(self.mmapFilePath, "wb") as fs:
+                fs.write(dataStruct)
+        except OSError: 
+            raise Err.CreateFileIpMmapError(self.mmapFilePath)
 
     def openMemory(self):
         """Map explicitly the IPMMAP's structure to shared memory space.
