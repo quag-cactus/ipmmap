@@ -91,6 +91,12 @@ class DataStructMmapReader(BaseStructMmapManager):
         return val
 
     def readMappedBuffer(self):
+        """Return a IPMMAP's Structure object that is copied from shared memory fields.
+
+        Returns:
+            ctypes.Structure: copied IPMMAP's Structure object
+        """
+
         mmData = None
         if not self.mm is None:
             self.mm.seek(0)
@@ -148,6 +154,13 @@ class DataStructMmapEditor(DataStructMmapReader):
         return
 
     def referMappedBuffer(self):
+        """Return a IPMMAP's Structure object that is refered shared memory fields.
+        You can edit shared memory field directory, by editing the returned object.
+        *caution!* You must remove referrence for shared memory field, before you exit from with statement.
+
+        Returns:
+            ctypes.Structure: IPMMAP's Structure object
+        """
         if not self.mm is None:
             self.mm.seek(0)
             return self.structType.from_buffer(self.mm)
