@@ -23,16 +23,23 @@ def Main():
 
                 lastUpdateTime = datetime.datetime.fromtimestamp(updateTime)
 
+                # Reading shared memory easily
                 data_int = reader.readData('data_int')
                 data_string = reader.readData('data_string')
                 pts_x = reader.readData('data_xy.x')
                 pts_y = reader.readData('data_xy.y')
+
+                # Reading shared memory manualy, you can read deep nested attributes
+                buf = reader.readMappedBuffer()
+                multi_0_x = buf.multi_pts.multi_points[0].x
+                multi_0_y = buf.multi_pts.multi_points[0].y
 
                 print("------SHARED MEM UPDATED!------")
                 print("[last update] {}".format(lastUpdateTime))
                 print("[data_int] {}".format(data_int))
                 print("[data_string] {}".format(data_string))
                 print("[data_xy] x: {}, y: {}".format(pts_x, pts_y))
+                print("[multiPoints(index: [0])] x: {}, y: {}".format(multi_0_x, multi_0_y))
 
                 lastestUpdateTime = updateTime
 
