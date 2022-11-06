@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ipmmap package &mdash; IPMMAP  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to IPMMAP’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> IPMMAP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ipmmap package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ipmmap.mmap_manager">ipmmap.mmap_manager module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ipmmap.struct_mmap_manager">ipmmap.struct_mmap_manager module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ipmmap">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IPMMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>ipmmap package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ipmmap.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipmmap-package">
+<h1>ipmmap package<a class="headerlink" href="#ipmmap-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-ipmmap.mmap_manager">
+<span id="ipmmap-mmap-manager-module"></span><h2>ipmmap.mmap_manager module<a class="headerlink" href="#module-ipmmap.mmap_manager" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipmmap.mmap_manager.AbstractMmapManger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipmmap.mmap_manager.</span></span><span class="sig-name descname"><span class="pre">AbstractMmapManger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mmapDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fastenerDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Logger</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.mmap_manager.AbstractMmapManger" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-ipmmap.struct_mmap_manager">
+<span id="ipmmap-struct-mmap-manager-module"></span><h2>ipmmap.struct_mmap_manager module<a class="headerlink" href="#module-ipmmap.struct_mmap_manager" title="Permalink to this heading"></a></h2>
+<p>MmapManager for ctypes.Structure</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.BaseStructMmapManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipmmap.struct_mmap_manager.</span></span><span class="sig-name descname"><span class="pre">BaseStructMmapManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmapDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fastenerDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.BaseStructMmapManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ipmmap.mmap_manager.AbstractMmapManger" title="ipmmap.mmap_manager.AbstractMmapManger"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMmapManger</span></code></a></p>
+<p>Base class for StructMmapReader, Editor and Manager</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.BaseStructMmapManager.getLastUpdate">
+<span class="sig-name descname"><span class="pre">getLastUpdate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#ipmmap.struct_mmap_manager.BaseStructMmapManager.getLastUpdate" title="Permalink to this definition"></a></dt>
+<dd><p>Returns last-update time of IPMMAP’s shared memory as the UNIX epoch time (float).</p>
+<p>This time can edit only DataStructMmapEditor.updateLastUpdate().
+The default value of last-update time is 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>UNIX epoch time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.BaseStructMmapManager.setUserStructs">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setUserStructs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moduleNameList</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.BaseStructMmapManager.setUserStructs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapEditor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipmmap.struct_mmap_manager.</span></span><span class="sig-name descname"><span class="pre">DataStructMmapEditor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmapDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fastenerDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapEditor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ipmmap.struct_mmap_manager.DataStructMmapReader" title="ipmmap.struct_mmap_manager.DataStructMmapReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataStructMmapReader</span></code></a></p>
+<p>IPMMAP handler class with a editor privilege.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapEditor.clearMappedBuffer">
+<span class="sig-name descname"><span class="pre">clearMappedBuffer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapEditor.clearMappedBuffer" title="Permalink to this definition"></a></dt>
+<dd><p>Fill IPMMAP’s shared memory space with zero.</p>
+<p>This method also fills last-update time with zero.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapEditor.referMappedBuffer">
+<span class="sig-name descname"><span class="pre">referMappedBuffer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapEditor.referMappedBuffer" title="Permalink to this definition"></a></dt>
+<dd><p>Return a IPMMAP’s Structure object that is refered shared memory fields.
+You can edit shared memory field directory, by editing the returned object.
+<em>caution!</em> You must remove referrence for shared memory field, before you exit from with statement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>IPMMAP’s Structure object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>ctypes.Structure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapEditor.updateLastUpdate">
+<span class="sig-name descname"><span class="pre">updateLastUpdate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapEditor.updateLastUpdate" title="Permalink to this definition"></a></dt>
+<dd><p>Update last update time of the IPMMAP’s shared memory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapEditor.writeData">
+<span class="sig-name descname"><span class="pre">writeData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapEditor.writeData" title="Permalink to this definition"></a></dt>
+<dd><p>Set a value of designated a key-string any IPMMAP Structure’s fields</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – String of a IPMMAP Structure’s field name</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – Value to write for IPMMAP’s shared memory space</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipmmap.struct_mmap_manager.</span></span><span class="sig-name descname"><span class="pre">DataStructMmapManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmapDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fastenerDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ipmmap.struct_mmap_manager.DataStructMmapEditor" title="ipmmap.struct_mmap_manager.DataStructMmapEditor"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataStructMmapEditor</span></code></a></p>
+<p>IPMMAP handler class with a manager privilege.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapManager.closeMemory">
+<span class="sig-name descname"><span class="pre">closeMemory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapManager.closeMemory" title="Permalink to this definition"></a></dt>
+<dd><p>Close the file object and the mmap instance explicitly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapManager.openMemory">
+<span class="sig-name descname"><span class="pre">openMemory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapManager.openMemory" title="Permalink to this definition"></a></dt>
+<dd><p>Map explicitly the IPMMAP’s structure to shared memory space.</p>
+<p>This method will open both the file object and get the mmap instance.
+if you want to close resources or stop the process, you need to call closeMemory().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapReader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ipmmap.struct_mmap_manager.</span></span><span class="sig-name descname"><span class="pre">DataStructMmapReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmapDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fastenerDir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapReader" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ipmmap.struct_mmap_manager.BaseStructMmapManager" title="ipmmap.struct_mmap_manager.BaseStructMmapManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseStructMmapManager</span></code></a></p>
+<p>IPMMAP handler class with a reader privilege.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapReader.readData">
+<span class="sig-name descname"><span class="pre">readData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">any</span></span></span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapReader.readData" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a value of designated a key-string any IPMMAP Structure’s fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – string of the IPMMAP Structure’s field name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ipmmap.struct_mmap_manager.DataStructMmapReader.readMappedBuffer">
+<span class="sig-name descname"><span class="pre">readMappedBuffer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ipmmap.struct_mmap_manager.DataStructMmapReader.readMappedBuffer" title="Permalink to this definition"></a></dt>
+<dd><p>Return a IPMMAP’s Structure object that is copied from shared memory fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>copied IPMMAP’s Structure object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>ctypes.Structure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ipmmap">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ipmmap" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to IPMMAP’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, quag-cactus.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
